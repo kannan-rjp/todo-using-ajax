@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task with XHR</title>
+    <style>
+        ul{
+            list-style-type:none;
+        }
+        li{
+            color: rgb(90, 102, 99);
+            padding: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="display: flex;width: 100%;justify-content: center;">
+        <div class="box" style="display: flex; flex-direction: column; justify-content: center;" >
+            <div style="display: flex;justify-content: center;">
+                <button onclick="changeContent()">GET</button>
+            </div>
+            <div id="lists"></div>
+        </div>
+    </div>
+
+<script>
+    function changeContent(){
+        const xhr = new XMLHttpRequest();
+        
+        xhr.open('get','http://localhost:3003/task/list','true');
+        
+        xhr.onload = () => {
+            // console.log(xhr.readyState,'ready state...')
+            // console.log(xhr.status,'status state...')
+            // console.log(xhr.response,'response state...')
+            // if (xhr.readyState === xhr.DONE) {
+            //     if (xhr.status === 200) {
+            //     console.log(xhr.response);
+            //     console.log(xhr.responseText);
+            //     }
+            // }
+            const tasks = JSON.parse(xhr.responseText);;
+            console.log(tasks,'......')
+            const lists = document.getElementById('lists')
+            const ul = document.createElement('ul');
+            tasks.forEach((element) => {
+                const li = document.createElement('li');
+                li.textContent = element.task.toUpperCase();
+                ul.append(li);
+            })
+            lists.append(ul)
+        };
+        xhr.send();
+        
+    }
+</script>    
+</body>
+</html>
